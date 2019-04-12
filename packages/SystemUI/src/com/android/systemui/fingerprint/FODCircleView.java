@@ -329,11 +329,6 @@ public class FODCircleView extends ImageView implements OnTouchListener {
                 Settings.System.OMNI_CUSTOM_FP_ICON,
                 UserHandle.USER_CURRENT);
 
-        if (mIsDreaming && !mIsPulsing) {
-            setImageResource(R.drawable.fod_icon_empty);
-            return;
-        }
-
         if (!TextUtils.isEmpty(customIconURI)) {
             try {
                 ParcelFileDescriptor parcelFileDescriptor =
@@ -348,7 +343,6 @@ public class FODCircleView extends ImageView implements OnTouchListener {
             }
         } else {
             setImageResource(R.drawable.fod_icon_default);
-
         }
     }
 }
