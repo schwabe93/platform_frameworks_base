@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2017-2018 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use mHost file
  * except in compliance with the License. You may obtain a copy of the License at
@@ -40,9 +41,11 @@ import com.android.systemui.qs.tiles.ExpandedDesktopTile;
 import com.android.systemui.qs.tiles.FlashlightTile;
 import com.android.systemui.qs.tiles.HeadsUpTile;
 import com.android.systemui.qs.tiles.GamingModeTile;
+import com.android.systemui.qs.tiles.FontTile;
 import com.android.systemui.qs.tiles.HotspotTile;
 import com.android.systemui.qs.tiles.HWKeysTile;
 import com.android.systemui.qs.tiles.IntentTile;
+import com.android.systemui.qs.tiles.LiveDisplayTile;
 import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.LteTile;
 import com.android.systemui.qs.tiles.OneHandTile;
@@ -50,6 +53,7 @@ import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.MusicTile;
 import com.android.systemui.qs.tiles.NightDisplayTile;
 import com.android.systemui.qs.tiles.RebootTile;
+import com.android.systemui.qs.tiles.ReadingModeTile;
 import com.android.systemui.qs.tiles.RotationLockTile;
 import com.android.systemui.qs.tiles.SoundTile;
 import com.android.systemui.qs.tiles.ScreenshotTile;
@@ -161,6 +165,12 @@ public class QSFactoryImpl implements QSFactory {
                 return new AmbientDisplayTile(mHost);
             case "volume_panel":
                 return new VolumeTile(mHost);
+            case "livedisplay":
+                return new LiveDisplayTile(mHost);
+            case "reading_mode":
+                return new ReadingModeTile(mHost);
+            case "font":
+                return new FontTile(mHost);
         }
 
         // Intent tiles.

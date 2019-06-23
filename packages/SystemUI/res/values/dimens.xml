@@ -589,7 +589,7 @@
     <dimen name="qs_date_time_translation">8dp</dimen>
 
     <!-- Padding before battery level text in status bar, QS, and Keyguard -->
-    <dimen name="battery_level_padding_start">4dp</dimen>
+    <dimen name="battery_level_padding_start">2dp</dimen>
 
     <!-- The top padding of the clear all button -->
     <dimen name="clear_all_padding_top">12dp</dimen>
@@ -1026,4 +1026,11 @@
     <!-- How much we expand the touchable region of the status bar below the notch to catch touches
          that just start below the notch. -->
     <dimen name="display_cutout_touchable_region_size">12dp</dimen>
+
+    <!-- Padding for overheat alarm dialog message of content -->
+    <dimen name="alarm_dialog_panel_padding">24dp</dimen>
+
+    <!-- Padding for overheat alarm dialog message of content -->
+    <dimen name="alarm_dialog_message_space">28dp</dimen>
+
 </resources>

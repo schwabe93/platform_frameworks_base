@@ -284,6 +284,8 @@ import android.content.IIntentReceiver;
 import android.content.IIntentSender;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.om.IOverlayManager;
+import android.content.om.OverlayInfo;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ApplicationInfo.HiddenApiEnforcementPolicy;
@@ -2023,6 +2025,9 @@ public class ActivityManagerService extends IActivityManager.Stub
 
     private static String sTheRealBuildSerial = Build.UNKNOWN;
 
+    final SwipeToScreenshotObserver mSwipeToScreenshotObserver;
+    private boolean mIsSwipeToScrenshotEnabled;
+
     /**
      * Current global configuration information. Contains general settings for the entire system,
      * also corresponds to the merged configuration of the default display.
@@ -3078,6 +3083,7 @@ public class ActivityManagerService extends IActivityManager.Stub
         mProcStartHandlerThread = null;
         mProcStartHandler = null;
         mHiddenApiBlacklist = null;
+        mSwipeToScreenshotObserver = null;
     }
 
     // Note: This method is invoked on the main thread but may need to attach various
@@ -3226,6 +3232,7 @@ public class ActivityManagerService extends IActivityManager.Stub
             Slog.w(TAG, "Setting background thread cpuset failed");
         }
 
+        mSwipeToScreenshotObserver = new SwipeToScreenshotObserver(mHandler, mContext);
     }
 
     protected ActivityStackSupervisor createStackSupervisor() {
@@ -4533,7 +4540,11 @@ public class ActivityManagerService extends IActivityManager.Stub
                 mPerfServiceStartHint = new BoostFramework();
             }
             if (mPerfServiceStartHint != null) {
-                mPerfServiceStartHint.perfHint(BoostFramework.VENDOR_HINT_FIRST_LAUNCH_BOOST, app.processName, -1, BoostFramework.Launch.TYPE_SERVICE_START);
+                if (hostingType.equals("activity")) {
+                    if (startResult != null) {
+                        mPerfServiceStartHint.perfHint(BoostFramework.VENDOR_HINT_FIRST_LAUNCH_BOOST, app.processName, startResult.pid, BoostFramework.Launch.TYPE_START_PROC);
+                    }
+                }
             }
 
             checkTime(startTime, "startProcess: returned from zygote!");
@@ -6168,6 +6179,7 @@ public class ActivityManagerService extends IActivityManager.Stub
             }
             if (mUxPerf != null) {
                 mUxPerf.perfUXEngine_events(BoostFramework.UXE_EVENT_KILL, 0, app.processName, 0);
+                mUxPerf.perfHint(BoostFramework.VENDOR_HINT_KILL, app.processName, pid, 0);
             }
             EventLog.writeEvent(EventLogTags.AM_PROC_DIED, app.userId, app.pid, app.processName,
                     app.setAdj, app.setProcState);
@@ -7360,6 +7372,7 @@ public class ActivityManagerService extends IActivityManager.Stub
             }
             if (mUxPerf != null) {
                 mUxPerf.perfUXEngine_events(BoostFramework.UXE_EVENT_KILL, 0, packageName, 0);
+                mUxPerf.perfHint(BoostFramework.VENDOR_HINT_KILL, packageName, appId, 0);
             }
 
             mAppErrors.resetProcessCrashTimeLocked(packageName == null, appId, userId);
@@ -14830,6 +14843,34 @@ public class ActivityManagerService extends IActivityManager.Stub
                 Context.WINDOW_SERVICE)).addView(v, lp);
     }
 
+    public final void disableOverlays() {
+        try {
+            IOverlayManager iom = IOverlayManager.Stub.asInterface(
+                    ServiceManager.getService("overlay"));
+            if (iom == null) {
+                return;
+            }
+            Log.d(TAG, "Contacting the Overlay Manager Service for the list of enabled overlays");
+            Map<String, List<OverlayInfo>> allOverlays = iom.getAllOverlays(UserHandle.USER_SYSTEM);
+            if (allOverlays != null) {
+                Log.d(TAG, "The Overlay Manager Service provided the list of enabled overlays");
+                Set<String> set = allOverlays.keySet();
+                for (String targetPackageName : set) {
+                    for (OverlayInfo oi : allOverlays.get(targetPackageName)) {
+                        if (oi.isEnabled()) {
+                            iom.setEnabled(oi.packageName, false, UserHandle.USER_SYSTEM);
+                            Log.d(TAG, "Now disabling \'" + oi.packageName + "\'");
+                        }
+                    }
+                }
+            }
+        } catch (RemoteException re) {
+            re.printStackTrace();
+            Log.d(TAG, "RemoteException while trying to contact the Overlay Manager Service!");
+        }
+    }
+
+
     @Override
     public void noteWakeupAlarm(IIntentSender sender, WorkSource workSource, int sourceUid,
             String sourcePkg, String tag) {
@@ -15274,6 +15315,7 @@ public class ActivityManagerService extends IActivityManager.Stub
             }
             mWaitForNetworkTimeoutMs = waitForNetworkTimeoutMs;
         }
+        mSwipeToScreenshotObserver.registerObserver();
     }
 
     public void systemReady(final Runnable goingCallback, TimingsTraceLog traceLog) {
@@ -24552,7 +24594,9 @@ public class ActivityManagerService extends IActivityManager.Stub
                         }
                         app.kill("excessive cpu " + cputimeUsed + " during " + uptimeSince
                                 + " dur=" + checkDur + " limit=" + cpuLimit, true);
-                        app.baseProcessTracker.reportExcessiveCpu(app.pkgList);
+                        if (app.baseProcessTracker != null) {
+                            app.baseProcessTracker.reportExcessiveCpu(app.pkgList);
+                        }
                     }
                 }
                 app.lastCpuTime = app.curCpuTime;
@@ -27462,6 +27506,39 @@ public class ActivityManagerService extends IActivityManager.Stub
 
     Context getContext() {
         return mContext;
+    }
+
+    private class SwipeToScreenshotObserver extends ContentObserver {
+
+        private final Context mContext;
+
+        public SwipeToScreenshotObserver(Handler handler, Context context) {
+            super(handler);
+            mContext = context;
+        }
+
+        public void registerObserver() {
+            mContext.getContentResolver().registerContentObserver(
+                    Settings.System.getUriFor(Settings.System.THREE_FINGER_GESTURE),
+                    false, this, UserHandle.USER_ALL);
+            update();
+        }
+
+        private void update() {
+            mIsSwipeToScrenshotEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
+                    Settings.System.THREE_FINGER_GESTURE, 0, UserHandle.USER_CURRENT) == 1;
+        }
+
+        public void onChange(boolean selfChange) {
+            update();
+        }
+    }
+
+    @Override
+    public boolean isSwipeToScreenshotGestureActive() {
+        synchronized (this) {
+            return mIsSwipeToScrenshotEnabled && SystemProperties.getBoolean("sys.android.screenshot", false);
+        }
     }
 
 }

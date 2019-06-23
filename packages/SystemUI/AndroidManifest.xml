@@ -244,11 +244,16 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!-- QS Tiles -->
+    <uses-permission android:name="lineageos.permission.HARDWARE_ABSTRACTION_ACCESS" />
+    <uses-permission android:name="lineageos.permission.MANAGE_LIVEDISPLAY" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
 
     <!-- DayNight mode -->
     <uses-permission android:name="android.permission.MODIFY_DAY_NIGHT_MODE" />
+
+    <!-- Font tile -->
+    <uses-permission android:name="android.permission.ACCESS_FONT_MANAGER" />
 
     <application
         android:name=".SystemUIApplication"
@@ -305,6 +310,16 @@
                 <action android:name="com.android.systemui.action.RESTART" />
 
                 <data android:scheme="package" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.android.systemui.action.RESTART_THEME" />
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".SoundRefreshReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.android.systemui.action.REFRESH_SOUND" />
             </intent-filter>
         </receiver>
 

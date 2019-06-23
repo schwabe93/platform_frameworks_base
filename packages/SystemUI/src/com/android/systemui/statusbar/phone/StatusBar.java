@@ -362,8 +362,8 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
     /** Whether to force dark theme if Configuration.UI_MODE_NIGHT_YES. */
     private static final boolean DARK_THEME_IN_NIGHT_MODE = true;
 
-    /** Whether to switch the device into night mode in battery saver. */
-    private static final boolean NIGHT_MODE_IN_BATTERY_SAVER = true;
+    /** Whether to switch the device into night mode in battery saver. (Disabled.) */
+    private static final boolean NIGHT_MODE_IN_BATTERY_SAVER = false;
 
     /**
      * Never let the alpha become zero for surfaces that draw with SRC - otherwise the RenderNode
@@ -972,7 +972,7 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
                     if (mHeadsUpManager.hasPinnedHeadsUp()) {
                         mNotificationPanel.notifyBarPanelExpansionChanged();
                     }
-
+                    
                     mStatusBarView.setBouncerShowing(mBouncerShowing);
                     if (oldStatusBarView != null) {
                         float fraction = oldStatusBarView.getExpansionFraction();
@@ -1228,16 +1228,20 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
     }
 
     protected void createNavigationBar() {
-        mNavigationBarView = NavigationBarFragment.create(mContext, (tag, fragment) -> {
-            mNavigationBar = (NavigationBarFragment) fragment;
-            if (mLightBarController != null) {
-                mNavigationBar.setLightBarController(mLightBarController);
-            }
-            if (!mNavigationBar.isUsingStockNav()) {
-                ((NavigationBarFrame)mNavigationBarView).disableDeadZone();
-            }
-            mNavigationBar.setCurrentSysuiVisibility(mSystemUiVisibility);
-        });
+        try {
+            mNavigationBarView = NavigationBarFragment.create(mContext, (tag, fragment) -> {
+                mNavigationBar = (NavigationBarFragment) fragment;
+                if (mLightBarController != null) {
+                    mNavigationBar.setLightBarController(mLightBarController);
+                }
+                if (!mNavigationBar.isUsingStockNav()) {
+                    ((NavigationBarFrame)mNavigationBarView).disableDeadZone();
+                }
+                mNavigationBar.setCurrentSysuiVisibility(mSystemUiVisibility);
+            });
+        } catch (WindowManager.BadTokenException e) {
+            Log.d(TAG, "Unable to add navbar. " + e);
+        }
     }
 
     protected void removeNavigationBar() {
@@ -2167,6 +2171,10 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
             return false;
         }
 
+        if (mEntryManager.shouldSkipHeadsUp(sbn)) {
+            return false;
+        }
+
         if (sbn.getNotification().fullScreenIntent != null) {
             if (mAccessibilityManager.isTouchExplorationEnabled()) {
                 if (DEBUG) Log.d(TAG, "No peeking: accessible fullscreen: " + sbn.getKey());
@@ -2350,6 +2358,10 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
 
     public boolean isUsingChocolateTheme() {
         return ThemeAccentUtils.isUsingChocolateTheme(mOverlayManager, mLockscreenUserManager.getCurrentUserId());
+    }
+
+    public boolean isUsingElegantTheme() {
+        return ThemeAccentUtils.isUsingElegantTheme(mOverlayManager, mLockscreenUserManager.getCurrentUserId());
     }
 
     // Unloads the stock dark theme
@@ -4390,6 +4402,7 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
      */
     protected void updateTheme() {
         final boolean inflated = mStackScroller != null && mStatusBarWindowManager != null;
+        boolean useElegantTheme = false;
         boolean useChocolateTheme = false;
         boolean useExtendedTheme = false;
         boolean useBlackTheme = false;
@@ -4410,6 +4423,7 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
             useBlackTheme = mCurrentTheme == 3;
             useExtendedTheme = mCurrentTheme == 4;
             useChocolateTheme = mCurrentTheme == 5;
+            useElegantTheme = mCurrentTheme == 6;
         }
         if (isUsingDarkTheme() != useDarkTheme) {
             // Check for black and white accent so we don't end up
@@ -4455,6 +4469,18 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
             ThemeAccentUtils.setLightChocolateTheme(mOverlayManager, mLockscreenUserManager.getCurrentUserId(), useChocolate);
             });
             mNotificationPanel.setLockscreenClockTheme(useChocolateTheme);
+        }
+
+        if (isUsingElegantTheme() != useElegantTheme) {
+            // Check for black and white accent so we don't end up
+            // with white on white or black on black
+            // unfuckBlackWhiteAccent();
+            final boolean useElegant = useElegantTheme;
+            unloadAccents();
+            mUiOffloadThread.submit(() -> {
+            ThemeAccentUtils.setLightElegantTheme(mOverlayManager, mLockscreenUserManager.getCurrentUserId(), useElegant);
+            });
+            mNotificationPanel.setLockscreenClockTheme(useElegantTheme);
         }
 
         // Lock wallpaper defines the color of the majority of the views, hence we'll use it
@@ -5750,7 +5776,7 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
                     Settings.System.DOUBLE_TAP_SLEEP_GESTURE),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HEADS_UP_STOPLIST_VALUES), 
+                    Settings.System.HEADS_UP_STOPLIST_VALUES),
                     false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_BLACKLIST_VALUES),
@@ -5794,6 +5820,9 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STOCK_STATUSBAR_IN_HIDE),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LESS_BORING_HEADS_UP),
+                    false, this, UserHandle.USER_ALL);
         }
 
         @Override
@@ -5833,6 +5862,8 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
                 updateTileStyle();
             } else if (uri.equals(Settings.System.getUriFor(Settings.System.PULSE_APPS_BLACKLIST))) {
                 setPulseBlacklist();
+            } else if (uri.equals(Settings.System.getUriFor(Settings.System.LESS_BORING_HEADS_UP))) {
+                setUseLessBoringHeadsUp();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.FORCE_AMBIENT_FOR_MEDIA))) {
                 setForceAmbient();
@@ -5856,6 +5887,7 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
             updateTheme();
             setQsPanelOptions();
             setFpToDismissNotifications();
+            setUseLessBoringHeadsUp();
             setPulseBlacklist();
             setForceAmbient();
             updateCorners();
@@ -5929,11 +5961,18 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
         }
     }
 
-
     private void setPulseBlacklist() {
         String blacklist = Settings.System.getStringForUser(mContext.getContentResolver(),
                 Settings.System.PULSE_APPS_BLACKLIST, UserHandle.USER_CURRENT);
         getMediaManager().setPulseBlacklist(blacklist);
+
+    }
+
+    private void setUseLessBoringHeadsUp() {
+        boolean lessBoringHeadsUp = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.LESS_BORING_HEADS_UP, 0,
+                UserHandle.USER_CURRENT) == 1;
+        mEntryManager.setUseLessBoringHeadsUp(lessBoringHeadsUp);
     }
 
     private void setForceAmbient() {

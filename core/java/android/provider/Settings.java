@@ -4015,12 +4015,6 @@ public final class Settings {
         private static final Validator DOCK_SOUNDS_ENABLED_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
-         * Check the proximity sensor during wakeup
-         * @hide
-         */
-        public static final String PROXIMITY_ON_WAKE = "proximity_on_wake";
-
-        /**
          * Whether to play sounds when the keyguard is shown and dismissed.
          * @hide
          */
@@ -4536,6 +4530,12 @@ public final class Settings {
         public static final String SHOW_FOURG_ICON = "show_fourg_icon";
 
         /**
+         * Wheter to show heads up only for dialer and sms apps
+         * @hide
+         */
+        public static final String LESS_BORING_HEADS_UP = "less_boring_heads_up";
+
+        /**
          * Whether to show VoLTE icon or not
          * @hide
          */
@@ -4552,6 +4552,12 @@ public final class Settings {
          * @hide
          */
         public static final String HOME_WAKE_BUTTON = "home_wake_button";
+
+	/**
+         * Whether to enable the pixel navbar animation
+         * @hide
+         */
+        public static final String PIXEL_NAV_ANIMATION = "pixel_nav_animation";
 
         /**
          * @hide
@@ -4635,6 +4641,7 @@ public final class Settings {
          * 3 - force black
          * 4 - force extendedUI
          * 5 - force chocolateUI
+         * 6 - force Elegant UI
          * @hide
          */
         public static final String SYSTEM_THEME_STYLE = "system_theme_style";
@@ -4675,6 +4682,19 @@ public final class Settings {
          */
         public static final int SYSTEM_THEME_STYLE_CHOCOLATE = 5;
 
+
+        /**
+         * SYSTEM_THEME_STYLE value for elegant theme mode.
+         * @hide
+         */
+        public static final int SYSTEM_THEME_STYLE_ELEGANT = 6;
+
+        /**
+         * THEME_MODE value for time mode.
+         * @hide
+         */
+        public static final int THEME_MODE_TIME = 7;
+
         /**
          * Whether to use icon pack for Recents
          * @hide
@@ -4687,6 +4707,12 @@ public final class Settings {
          * @hide
          */
         public static final String ACCENT_PICKER = "accent_picker";
+
+        /**
+         * Whether to display our aex logo in the statusbar for extra swag
+         * @hide
+         */
+        public static final String STATUS_BAR_LOGO = "status_bar_logo";
 
         /**
          * Whether to allow use of system themes alongside substratum
@@ -4827,21 +4853,21 @@ public final class Settings {
         private static final Validator CUSTOM_DEVICE_FEATURE_SETTINGS_VALIDATOR =
                 ANY_STRING_VALIDATOR;
 
-        /**
-         * Weather lockscreen temperature scale
-         * @hide
-         */
-        public static final String WEATHER_LOCKSCREEN_UNIT = "weather_lockscreen_unit";
-
-        /** @hide */
-        private static final Validator WEATHER_LOCKSCREEN_UNIT_VALIDATOR =
-               BOOLEAN_VALIDATOR;
 
         /**
          * Apps to skip for Pulse
          * @hide
          */
         public static final String PULSE_APPS_BLACKLIST = "pulse_apps_blacklist";
+
+        /**
+         * Whether allowing pocket service to register sensors and dispatch informations.
+         *   0 = disabled
+         *   1 = enabled
+         * @author Carlo Savignano
+         * @hide
+         */
+        public static final String POCKET_JUDGE = "pocket_judge";
 
         /**
          * 0 - fullscreen
@@ -5200,21 +5226,6 @@ public final class Settings {
         private static final Validator ONE_HAND_MODE_ENABLED_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /** @hide */
-        public static final String AUDIO_PANEL_VIEW_MEDIA = "audio_panel_view_media";
-
-        /** @hide */
-        public static final String AUDIO_PANEL_VIEW_NOTIFICATION = "audio_panel_view_notification";
-
-        /** @hide */
-        public static final String AUDIO_PANEL_VIEW_ALARM = "audio_panel_view_alarm";
-
-        /** @hide */
-        public static final String AUDIO_PANEL_VIEW_VOICE = "audio_panel_view_voice";
-
-        /** @hide */
-        public static final String AUDIO_PANEL_VIEW_BT_SCO = "audio_panel_view_bt_sco";
-
-        /** @hide */
         public static final String AUDIO_PANEL_VIEW_POSITION = "audio_panel_view_position";
 
         /** @hide */
@@ -5239,6 +5250,150 @@ public final class Settings {
         /** @hide */
         private static final Validator STOCK_STATUSBAR_IN_HIDE_VALIDATOR =
                 BOOLEAN_VALIDATOR;
+
+        /**
+         * Color temperature of the display during the day
+         */
+        public static final String DISPLAY_TEMPERATURE_DAY = "display_temperature_day";
+
+        /** @hide */
+        public static final Validator DISPLAY_TEMPERATURE_DAY_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 100000);
+
+        /**
+         * Color temperature of the display at night
+         */
+        public static final String DISPLAY_TEMPERATURE_NIGHT = "display_temperature_night";
+
+        /** @hide */
+        public static final Validator DISPLAY_TEMPERATURE_NIGHT_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 100000);
+
+        /**
+         * Display color temperature adjustment mode, one of DAY (default), NIGHT, or AUTO.
+         */
+        public static final String DISPLAY_TEMPERATURE_MODE = "display_temperature_mode";
+
+        /** @hide */
+        public static final Validator DISPLAY_TEMPERATURE_MODE_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(0, 4);
+
+        /**
+         * Automatic outdoor mode
+         * 0 = 0ff, 1 = on
+         */
+        public static final String DISPLAY_AUTO_OUTDOOR_MODE = "display_auto_outdoor_mode";
+
+        /** @hide */
+        public static final Validator DISPLAY_AUTO_OUTDOOR_MODE_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
+         * Reader mode
+         * 0 = 0ff, 1 = on
+         */
+        public static final String DISPLAY_READING_MODE = "display_reading_mode";
+
+        /** @hide */
+        public static final Validator DISPLAY_READING_MODE_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
+         * Use display power saving features such as CABC or CABL
+         * 0 = 0ff, 1 = on
+         */
+        public static final String DISPLAY_CABC = "display_low_power";
+
+        /** @hide */
+        public static final Validator DISPLAY_CABC_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
+         * Use color enhancement feature of display
+         * 0 = 0ff, 1 = on
+         */
+        public static final String DISPLAY_COLOR_ENHANCE = "display_color_enhance";
+
+        /** @hide */
+        public static final Validator DISPLAY_COLOR_ENHANCE_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
+         * Use auto contrast optimization feature of display
+         * 0 = 0ff, 1 = on
+         */
+        public static final String DISPLAY_AUTO_CONTRAST = "display_auto_contrast";
+
+        /** @hide */
+        public static final Validator DISPLAY_AUTO_CONTRAST_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
+         * Manual display color adjustments (RGB values as floats, separated by spaces)
+         */
+        public static final String DISPLAY_COLOR_ADJUSTMENT = "display_color_adjustment";
+
+        /** @hide */
+        public static final Validator DISPLAY_COLOR_ADJUSTMENT_VALIDATOR =
+                new Validator() {
+                    @Override
+                    public boolean validate(String value) {
+                        String[] colorAdjustment = value == null ?
+                                null : value.split(" ");
+                        if (colorAdjustment != null && colorAdjustment.length != 3) {
+                            return false;
+                        }
+                        Validator floatValidator = new SettingsValidators.InclusiveFloatRangeValidator(0, 1);
+                        return colorAdjustment == null ||
+                                floatValidator.validate(colorAdjustment[0]) &&
+                                floatValidator.validate(colorAdjustment[1]) &&
+                                floatValidator.validate(colorAdjustment[2]);
+                    }
+                };
+
+        /**
+         * The current custom picture adjustment values as a delimited string
+         */
+        public static final String DISPLAY_PICTURE_ADJUSTMENT =
+                "display_picture_adjustment";
+
+        /** @hide */
+        public static final Validator DISPLAY_PICTURE_ADJUSTMENT_VALIDATOR =
+                new Validator() {
+                    @Override
+                    public boolean validate(String value) {
+                        if (TextUtils.isEmpty(value)) {
+                            return true;
+                        }
+                        final String[] sp = TextUtils.split(value, ",");
+                        for (String s : sp) {
+                            final String[] sp2 = TextUtils.split(s, ":");
+                            if (sp2.length != 2) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                };
+
+        /**
+         * Did we tell about how they can stop breaking their eyes?
+         * @hide
+         */
+        public static final String LIVE_DISPLAY_HINTED = "live_display_hinted";
+
+        /** @hide */
+        public static final Validator LIVE_DISPLAY_HINTED_VALIDATOR =
+                new SettingsValidators.InclusiveIntegerRangeValidator(-3, 1);
+
+        /**
+         * Whether night theme acquired from automatic theme (based on time of day) is enabled
+         * @hide
+         */
+        public static final String THEME_AUTOMATIC_TIME_IS_NIGHT = "theme_mode_automatic_time_is_night";
+
+        /** @hide */
+        public static final Validator THEME_AUTOMATIC_TIME_IS_NIGHT_VALIDATOR = BOOLEAN_VALIDATOR;
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
@@ -5470,7 +5625,6 @@ public final class Settings {
             PRIVATE_SETTINGS.add(SCREEN_STATE_MOBILE_DATA);
             PRIVATE_SETTINGS.add(SCREEN_STATE_OFF_DELAY);
             PRIVATE_SETTINGS.add(SCREEN_STATE_ON_DELAY);
-            PRIVATE_SETTINGS.add(WEATHER_LOCKSCREEN_UNIT);
             PRIVATE_SETTINGS.add(CUSTOM_BUTTON_EXTRA_KEY_MAPPING);
             PRIVATE_SETTINGS.add(CUSTOM_DEVICE_PROXI_CHECK_ENABLED);
             PRIVATE_SETTINGS.add(CUSTOM_DEVICE_GESTURE_FEEDBACK_ENABLED);
@@ -5499,6 +5653,21 @@ public final class Settings {
             PRIVATE_SETTINGS.add(DOZE_ON_CHARGE);
             PRIVATE_SETTINGS.add(DISPLAY_CUTOUT_MODE);
             PRIVATE_SETTINGS.add(STOCK_STATUSBAR_IN_HIDE);
+            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_DAY);
+            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_NIGHT);
+            PRIVATE_SETTINGS.add(DISPLAY_TEMPERATURE_MODE);
+            PRIVATE_SETTINGS.add(DISPLAY_AUTO_OUTDOOR_MODE);
+            PRIVATE_SETTINGS.add(DISPLAY_READING_MODE);
+            PRIVATE_SETTINGS.add(DISPLAY_CABC);
+            PRIVATE_SETTINGS.add(DISPLAY_COLOR_ENHANCE);
+            PRIVATE_SETTINGS.add(DISPLAY_AUTO_CONTRAST);
+            PRIVATE_SETTINGS.add(DISPLAY_COLOR_ADJUSTMENT);
+            PRIVATE_SETTINGS.add(DISPLAY_PICTURE_ADJUSTMENT);
+            PRIVATE_SETTINGS.add(LIVE_DISPLAY_HINTED);
+            PRIVATE_SETTINGS.add(THEME_AUTOMATIC_TIME_IS_NIGHT);
+            // Pocket mode handler.
+            PRIVATE_SETTINGS.add(POCKET_JUDGE);
+            PRIVATE_SETTINGS.add(STATUS_BAR_LOGO);
         }
 
 
@@ -5608,7 +5777,6 @@ public final class Settings {
             VALIDATORS.put(CUSTOM_DEVICE_PROXI_CHECK_ENABLED, CUSTOM_DEVICE_PROXI_CHECK_ENABLED_VALIDATOR);
             VALIDATORS.put(CUSTOM_DEVICE_GESTURE_FEEDBACK_ENABLED, CUSTOM_DEVICE_GESTURE_FEEDBACK_ENABLED_VALIDATOR);
             VALIDATORS.put(CUSTOM_DEVICE_FEATURE_SETTINGS, CUSTOM_DEVICE_FEATURE_SETTINGS_VALIDATOR);
-            VALIDATORS.put(WEATHER_LOCKSCREEN_UNIT, WEATHER_LOCKSCREEN_UNIT_VALIDATOR);
             VALIDATORS.put(ACCELEROMETER_ROTATION_ANGLES, ACCELEROMETER_ROTATION_ANGLES_VALIDATOR);
             VALIDATORS.put(VOLUME_KEYS_CONTROL_RING_TONE,VOLUME_KEYS_CONTROL_RING_TONE_VALIDATOR);
             VALIDATORS.put(INCREASING_RING, INCREASING_RING_VALIDATOR);
@@ -5632,6 +5800,18 @@ public final class Settings {
             VALIDATORS.put(DOZE_ON_CHARGE, DOZE_ON_CHARGE_VALIDATOR);
             VALIDATORS.put(DISPLAY_CUTOUT_MODE, DISPLAY_CUTOUT_MODE_VALIDATOR);
             VALIDATORS.put(STOCK_STATUSBAR_IN_HIDE, STOCK_STATUSBAR_IN_HIDE_VALIDATOR);
+            VALIDATORS.put(DISPLAY_TEMPERATURE_DAY, DISPLAY_TEMPERATURE_DAY_VALIDATOR);
+            VALIDATORS.put(DISPLAY_TEMPERATURE_NIGHT, DISPLAY_TEMPERATURE_NIGHT_VALIDATOR);
+            VALIDATORS.put(DISPLAY_TEMPERATURE_MODE, DISPLAY_TEMPERATURE_MODE_VALIDATOR);
+            VALIDATORS.put(DISPLAY_AUTO_OUTDOOR_MODE, DISPLAY_AUTO_OUTDOOR_MODE_VALIDATOR);
+            VALIDATORS.put(DISPLAY_READING_MODE, DISPLAY_READING_MODE_VALIDATOR);
+            VALIDATORS.put(DISPLAY_CABC, DISPLAY_CABC_VALIDATOR);
+            VALIDATORS.put(DISPLAY_COLOR_ENHANCE, DISPLAY_COLOR_ENHANCE_VALIDATOR);
+            VALIDATORS.put(DISPLAY_AUTO_CONTRAST, DISPLAY_AUTO_CONTRAST_VALIDATOR);
+            VALIDATORS.put(DISPLAY_COLOR_ADJUSTMENT, DISPLAY_COLOR_ADJUSTMENT_VALIDATOR);
+            VALIDATORS.put(DISPLAY_PICTURE_ADJUSTMENT, DISPLAY_PICTURE_ADJUSTMENT_VALIDATOR);
+            VALIDATORS.put(LIVE_DISPLAY_HINTED, LIVE_DISPLAY_HINTED_VALIDATOR);
+            VALIDATORS.put(THEME_AUTOMATIC_TIME_IS_NIGHT, THEME_AUTOMATIC_TIME_IS_NIGHT_VALIDATOR);
         }
 
         /**
@@ -9592,6 +9772,13 @@ public final class Settings {
         public static final String SMARTBAR_DOUBLETAP_SLEEP = "smartbar_doubletap_sleep";
 
         /**
+         * Force authorize Substratum (or equivalent) frontend calling packages by ThemeInterfacer
+         * The value is boolean (1 or 0).
+         * @hide
+         */
+        public static final String FORCE_AUTHORIZE_SUBSTRATUM_PACKAGES = "force_authorize_substratum_packages";
+
+        /**
          * Boolean value whether to link ringtone and notification volume
          * @hide
          */
@@ -12856,6 +13043,30 @@ public final class Settings {
          * @hide
          */
         public static final String KEEP_PROFILE_IN_BACKGROUND = "keep_profile_in_background";
+
+        /**
+         * Whether or not to use aggressive device idle constants and ignore motion.
+         * Type: int (0 for false, 1 for true)
+         * Default: 0
+         * @hide
+         */
+        public static final String AGGRESSIVE_IDLE_ENABLED = "aggressive_idle_enabled";
+
+        /**
+         * Whether or not to use aggressive app idle constants.
+         * Type: int (0 for false, 1 for true)
+         * Default: 0
+         * @hide
+         */
+        public static final String AGGRESSIVE_STANDBY_ENABLED = "aggressive_standby_enabled";
+
+        /**
+         * Flag to automatically enable Aggressive Idle and Standby with battery saver.
+         * Type: int (0 for false, 1 for true)
+         * Default: 0
+         * @hide
+         */
+        public static final String AGGRESSIVE_BATTERY_SAVER = "aggressive_battery_saver";
 
         /**
          * Get the key that retrieves a bluetooth headset's priority.

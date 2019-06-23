@@ -158,12 +158,6 @@ public class VolumeDialogImpl implements VolumeDialog {
 
     private boolean mLeftVolumeRocker, mCurrentPosition;
 
-    private boolean isMediaShowing = false;
-    private boolean isNotificationShowing = false;
-    private boolean isAlarmShowing = false;
-    private boolean isVoiceShowing = false;
-    private boolean isBTSCOShowing = false;
-    private boolean isNotificationLinked = true;
     private int mTimeOut = 3;
 
     private class SettingsObserver extends ContentObserver {
@@ -172,14 +166,8 @@ public class VolumeDialogImpl implements VolumeDialog {
         }
 
         void observe() {
-            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_MEDIA), false, this, UserHandle.USER_ALL);
-            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_NOTIFICATION), false, this, UserHandle.USER_ALL);
-            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_ALARM), false, this, UserHandle.USER_ALL);
-            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_VOICE), false, this, UserHandle.USER_ALL);
-            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_BT_SCO), false, this, UserHandle.USER_ALL);
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_POSITION), false, this, UserHandle.USER_ALL);
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(Settings.System.AUDIO_PANEL_VIEW_TIMEOUT), false, this, UserHandle.USER_ALL);
-            mContext.getContentResolver().registerContentObserver(Settings.Secure.getUriFor(Settings.Secure.VOLUME_LINK_NOTIFICATION), false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -195,17 +183,11 @@ public class VolumeDialogImpl implements VolumeDialog {
         }
 
         public void update() {
-            isMediaShowing = Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.AUDIO_PANEL_VIEW_MEDIA, 0, UserHandle.USER_CURRENT) == 1;
-            isNotificationShowing = Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.AUDIO_PANEL_VIEW_NOTIFICATION, 0, UserHandle.USER_CURRENT) == 1;
-            isAlarmShowing = Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.AUDIO_PANEL_VIEW_ALARM, 0, UserHandle.USER_CURRENT) == 1;
-            isVoiceShowing = Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.AUDIO_PANEL_VIEW_VOICE, 0, UserHandle.USER_CURRENT) == 1;
-            isBTSCOShowing = Settings.System.getIntForUser(mContext.getContentResolver(), Settings.System.AUDIO_PANEL_VIEW_BT_SCO, 0, UserHandle.USER_CURRENT) == 1;
             mCurrentPosition = mLeftVolumeRocker;
             mLeftVolumeRocker = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.AUDIO_PANEL_VIEW_POSITION, isAudioPanelOnLeftSide() ? 1 : 0, UserHandle.USER_CURRENT) == 1;
             mTimeOut = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.AUDIO_PANEL_VIEW_TIMEOUT, 3, UserHandle.USER_CURRENT);
-            isNotificationLinked = Settings.Secure.getIntForUser(mContext.getContentResolver(), Settings.Secure.VOLUME_LINK_NOTIFICATION, 1, UserHandle.USER_CURRENT) == 1;
         }
     }
 
@@ -314,12 +296,11 @@ public class VolumeDialogImpl implements VolumeDialog {
         if(!isAudioPanelOnLeftSide()) {            
             paramsRinger.gravity = Gravity.RIGHT|Gravity.CENTER_VERTICAL;
             paramsExpandRows.gravity = Gravity.RIGHT;
-            mExpandRows.setRotation(90);
         } else {
             paramsRinger.gravity = Gravity.LEFT|Gravity.CENTER_VERTICAL;
             paramsExpandRows.gravity = Gravity.LEFT;
-            mExpandRows.setRotation(-90);
         }
+        mExpandRows.setRotation((!isAudioPanelOnLeftSide() && !mLeftVolumeRocker) ? 90 : -90);
         mRinger.setLayoutParams(paramsRinger);
         mExpandRows.setLayoutParams(paramsExpandRows);
 
@@ -752,25 +733,6 @@ public class VolumeDialogImpl implements VolumeDialog {
     }
 
     private boolean shouldBeVisibleH(VolumeRow row, VolumeRow activeRow) {
-        if (row.stream == AudioManager.STREAM_MUSIC && isMediaShowing) {
-            return true;
-        }
-        if (row.stream == AudioManager.STREAM_NOTIFICATION) {
-            if (isNotificationLinked)
-                return false;
-
-            if (isNotificationShowing)
-                return true;
-        }
-        if (row.stream == AudioManager.STREAM_ALARM && isAlarmShowing) {
-            return true;
-        }
-        if (row.stream == AudioManager.STREAM_VOICE_CALL && isVoiceShowing) {
-            return true;
-        }
-        if (row.stream == AudioManager.STREAM_BLUETOOTH_SCO && isBTSCOShowing) {
-            return true;
-        }
 
         boolean isActive = row.stream == activeRow.stream;
         if (row.stream == AudioSystem.STREAM_ACCESSIBILITY) {

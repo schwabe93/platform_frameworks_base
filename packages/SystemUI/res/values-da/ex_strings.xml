@@ -157,12 +157,9 @@
     <string name="quick_settings_expanded_desktop_off">Normal</string>
     <string name="quick_settings_expanded_navigation_off">Skjul navigationsbar</string>
     <string name="quick_settings_expanded_statusbar_off">Skjul statusbar</string>
-    <!-- Advance location quick setting tile -->
-    <string name="quick_settings_location_secondary_battery_saving">Batterisparer</string>
+    <!-- Location Tile -->
     <string name="accessibility_quick_settings_location_battery_saving">Lokation rapportering: Batterisparende tilstand.</string>
-    <string name="quick_settings_location_secondary_gps_only">Kun sensorer</string>
     <string name="accessibility_quick_settings_location_gps_only">Lokationsrapportering: Kun sensorer.</string>
-    <string name="quick_settings_location_secondary_high_accuracy">Høj præcision</string>
     <string name="accessibility_quick_settings_location_high_accuracy">Placeringsrapportering: Høj præcisionstilstand.</string>
     <!-- Indication on the keyguard that is shown when the device is charging with a dash charger. Should match keyguard_plugged_in_dash_charging [CHAR LIMIT=40]-->
     <string name="keyguard_indication_dash_charging_time">Dash Charging (fuldt opladet om <xliff:g id="Charging_TIME_LEFT">%s</xliff:g>)</string>
@@ -211,8 +208,6 @@
     <!-- Kill button in notification guts -->
     <string name="force_stop_dlg_title">Tving til at standse?</string>
     <string name="force_stop_dlg_text">Hvis du tvinger en app til at standse, kan det medføre, at den ikke fungerer korrekt.</string>
-    <string name="dlg_ok">\@android: streng/ok</string>
-    <string name="dlg_cancel">\@android: streng/Annuller</string>
     <string name="kill">Luk App ned</string>
     <!-- OneHand mode QS tile -->
     <!--Google sound search tile -->
@@ -220,4 +215,7 @@
     <!-- Music tile -->
     <!-- Sync QS tile -->
     <!-- Ambient display QS tile -->
+    <!-- Volume panel QS tile -->
+    <!-- Reader mode QS tile -->
+    <!-- Font Tile -->
 </resources>

@@ -2700,8 +2700,9 @@ public class ConnectivityService extends IConnectivityManager.Stub
                     // 2. Unvalidated WiFi will not be reaped when validated cellular
                     //    is currently satisfying the request.  This is desirable when
                     //    WiFi ends up validating and out scoring cellular.
-                    getNetworkForRequest(nri.request.requestId).getCurrentScore() <
-                            nai.getCurrentScoreAsValidated())) {
+                    ((getNetworkForRequest(nri.request.requestId) != null)
+                    && (getNetworkForRequest(nri.request.requestId).getCurrentScore() <
+                            nai.getCurrentScoreAsValidated())))) {
                 return false;
             }
         }
@@ -4780,11 +4781,12 @@ public class ConnectivityService extends IConnectivityManager.Stub
         } else {
             updateProxy(newLp, oldLp, networkAgent);
         }
+
+        synchronized (networkAgent) {
+            networkAgent.linkProperties = newLp;
+        }
         // TODO - move this check to cover the whole function
         if (!Objects.equals(newLp, oldLp)) {
-            synchronized (networkAgent) {
-                networkAgent.linkProperties = newLp;
-            }
             notifyIfacesChangedForNetworkStats();
             notifyNetworkCallbacks(networkAgent, ConnectivityManager.CALLBACK_IP_CHANGED);
         }

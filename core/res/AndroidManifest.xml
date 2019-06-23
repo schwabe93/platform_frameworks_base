@@ -610,6 +610,9 @@
     <!-- For IdleController -->
     <protected-broadcast android:name="android.intent.action.DOCK_IDLE" />
     <protected-broadcast android:name="android.intent.action.DOCK_ACTIVE" />
+    <protected-broadcast android:name="projekt.substratum.APP_CRASHED" />
+    <protected-broadcast android:name="com.android.systemui.action.RESTART_THEME" />
+    <protected-broadcast android:name="com.android.systemui.action.REFRESH_SOUND" />
 
     <!-- Used for long press power torch feature - automatic turn off on timeout -->
     <protected-broadcast android:name="com.android.server.policy.PhoneWindowManager.ACTION_TORCH_OFF" />
@@ -3595,7 +3598,7 @@
     <permission android:name="android.permission.ACCESS_FONT_MANAGER"
         android:label="@string/permlab_accessFontManager"
         android:description="@string/permdesc_accessFontManager"
-        android:protectionLevel="signatureOrSystem" />
+        android:protectionLevel="normal" />
 
     <!-- @SystemApi @hide Allows an application to mark other applications as harmful -->
     <permission android:name="android.permission.SET_HARMFUL_APP_WARNINGS"
@@ -4046,6 +4049,14 @@
         android:label="@string/permlab_toggleNavigationEditor"
         android:description="@string/permdesc_toggleNavigationEditor"
         android:protectionLevel="signatureOrSystem" />
+
+    <!-- Live display -->
+    <protected-broadcast android:name="lineageos.intent.action.INITIALIZE_LINEAGE_HARDWARE" />
+    <protected-broadcast android:name="lineageos.platform.intent.action.UPDATE_TWILIGHT_STATE" />
+    <permission android:name="lineageos.permission.HARDWARE_ABSTRACTION_ACCESS"
+                android:protectionLevel="signature|privileged" />
+    <permission android:name="lineageos.permission.MANAGE_LIVEDISPLAY"
+                android:protectionLevel="signature|privileged" />
 
     <application android:process="system"
                  android:persistent="true"

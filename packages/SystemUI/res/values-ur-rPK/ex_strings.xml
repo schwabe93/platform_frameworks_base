@@ -19,6 +19,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Advanced reboot -->
+    <string name="global_action_restart_advanced">اعلیٰ</string>
     <string name="global_action_restart_recovery">ریکوری</string>
     <string name="global_action_restart_bootloader">بوٹ لوڈر</string>
     <string name="global_action_restart_ui">سىستم يواى</string>
@@ -51,7 +52,7 @@
     <!-- Theme tile -->
     <!-- QS Config -->
     <!-- Expanded Desktop QS Tile -->
-    <!-- Advance location quick setting tile -->
+    <!-- Location Tile -->
     <!-- Indication on the keyguard that is shown when the device is charging with a dash charger. Should match keyguard_plugged_in_dash_charging [CHAR LIMIT=40]-->
     <!-- Indication on the keyguard that is shown when the device is charging with a turbo power charger. Should match keyguard_plugged_in_turbo_power_charging [CHAR LIMIT=40]-->
     <!-- Gaming Mode -->
@@ -68,4 +69,7 @@
     <!-- Music tile -->
     <!-- Sync QS tile -->
     <!-- Ambient display QS tile -->
+    <!-- Volume panel QS tile -->
+    <!-- Reader mode QS tile -->
+    <!-- Font Tile -->
 </resources>

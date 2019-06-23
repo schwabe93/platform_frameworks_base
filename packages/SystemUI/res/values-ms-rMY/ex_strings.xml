@@ -157,12 +157,9 @@
     <string name="quick_settings_expanded_desktop_off">Normal</string>
     <string name="quick_settings_expanded_navigation_off">Sembunyikan navbar</string>
     <string name="quick_settings_expanded_statusbar_off">Sembunyikan statusbar</string>
-    <!-- Advance location quick setting tile -->
-    <string name="quick_settings_location_secondary_battery_saving">Penjimatan Bateri</string>
+    <!-- Location Tile -->
     <string name="accessibility_quick_settings_location_battery_saving">Pelaporan lokasi: mod penjimatan bateri.</string>
-    <string name="quick_settings_location_secondary_gps_only">Pengesan Sahaja</string>
     <string name="accessibility_quick_settings_location_gps_only">Pelaporan lokasi: mod pengesan sahaja.</string>
-    <string name="quick_settings_location_secondary_high_accuracy">Ketepatan Tinggi</string>
     <string name="accessibility_quick_settings_location_high_accuracy">Pelaporan lokasi: mod ketepatan tinggi.</string>
     <!-- Indication on the keyguard that is shown when the device is charging with a dash charger. Should match keyguard_plugged_in_dash_charging [CHAR LIMIT=40]-->
     <string name="keyguard_indication_dash_charging_time">Pengecasan Dash (<xliff:g id="charging_time_left" example="4 hours and 2 minutes">%s</xliff:g> hingga penuh)</string>
@@ -211,12 +208,20 @@
     <!-- Kill button in notification guts -->
     <string name="force_stop_dlg_title">Paksa henti?</string>
     <string name="force_stop_dlg_text">Jika anda paksa henti sesuatu aplikasi, ianya mungkin tidak berfungsi dengan betul.</string>
-    <string name="dlg_ok">@android:string/ok</string>
     <string name="kill">Bunuh Aplikasi</string>
     <!-- OneHand mode QS tile -->
+    <string name="qs_onehand_label">Mod satu tangan</string>
     <!--Google sound search tile -->
+    <string name="quick_settings_sound_search">Carian Bunyi</string>
     <!-- Always on Display Tile -->
+    <string name="quick_settings_always_on_display_label">Paparan sentiasa aktif</string>
     <!-- Music tile -->
+    <string name="quick_settings_music_label">Muzik</string>
+    <string name="quick_settings_music_play">Mainkan</string>
+    <string name="quick_settings_music_pause">Pegun</string>
     <!-- Sync QS tile -->
     <!-- Ambient display QS tile -->
+    <!-- Volume panel QS tile -->
+    <!-- Reader mode QS tile -->
+    <!-- Font Tile -->
 </resources>

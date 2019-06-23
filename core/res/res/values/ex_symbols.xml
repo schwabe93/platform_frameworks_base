@@ -53,15 +53,6 @@
 
     <java-symbol name="config_vendorPlatformSignatures" type="array" />
 
-    <!-- Proximity check on screen on -->
-    <java-symbol name="config_proximityCheckOnWake" type="bool" />
-
-    <!-- Proximity check timeout -->
-    <java-symbol name="config_proximityCheckTimeout" type="integer" />
-
-    <!-- Proximity check on screen on default -->
-    <java-symbol name="config_proximityCheckOnWakeEnabledByDefault" type="bool" />
-
     <!-- Home button wake -->
     <java-symbol name="config_HomeWakeButton" type="bool" />
 
@@ -99,9 +90,6 @@
     <java-symbol name="config_useDarkBgNotificationIconTextTinting" type="bool" />
     <java-symbol name="config_useDarkBgNotificationTinting_override" type="bool" />
     <java-symbol name="config_notificationTinting_override" type="bool" />
-
-    <!-- Oreo's recents component activity -->
-    <java-symbol name="config_recentsComponentNameOreo" type="string" />
 
     <!-- SystemUI Restart -->
     <java-symbol name="systemui_restart_title" type="string" />
@@ -273,4 +261,55 @@
   <java-symbol type="bool" name="config_physicalDisplayCutout" />
 
   <java-symbol type="color" name="bootleg_accent_gradient_end_color" />
+
+    <!-- LiveDisplay -->
+    <java-symbol type="string" name="live_display_title" />
+    <java-symbol type="string" name="live_display_hint" />
+    <java-symbol type="string" name="live_display_auto" />
+    <java-symbol type="string" name="live_display_auto_summary" />
+    <java-symbol type="string" name="live_display_day" />
+    <java-symbol type="string" name="live_display_day_summary" />
+    <java-symbol type="string" name="live_display_night" />
+    <java-symbol type="string" name="live_display_night_summary" />
+    <java-symbol type="string" name="live_display_outdoor" />
+    <java-symbol type="string" name="live_display_outdoor_summary" />
+    <java-symbol type="drawable" name="ic_livedisplay_notif" />
+    <java-symbol type="array" name="live_display_announcement" />
+    <java-symbol type="array" name="live_display_description" />
+    <java-symbol type="array" name="live_display_drawables" />
+    <java-symbol type="array" name="live_display_entries" />
+    <java-symbol type="array" name="live_display_summaries" />
+    <java-symbol type="array" name="live_display_values" />
+    <java-symbol type="integer" name="config_dayColorTemperature" />
+    <java-symbol type="integer" name="config_nightColorTemperature" />
+    <java-symbol type="integer" name="config_outdoorAmbientLux" />
+    <java-symbol type="integer" name="config_outdoorAmbientLuxHysteresis" />
+    <java-symbol type="integer" name="config_defaultLiveDisplayMode" />
+    <java-symbol type="integer" name="config_minColorTemperature" />
+    <java-symbol type="integer" name="config_maxColorTemperature" />
+    <java-symbol type="bool" name="config_defaultAutoContrast" />
+    <java-symbol type="bool" name="config_defaultAutoOutdoorMode" />
+    <java-symbol type="bool" name="config_defaultColorEnhancement" />
+    <java-symbol type="bool" name="config_defaultCABC" />
+    <java-symbol type="bool" name="config_filterDisplayModes" />
+    <java-symbol type="bool" name="config_outdoorCapable" />
+    <java-symbol type="array" name="config_displayModeMappings" />
+
+   <!-- Media notification seekbar control -->
+   <java-symbol type="id" name="notification_media_seekbar_container" />
+   <java-symbol type="layout" name="notification_material_media_seekbar" />
+   <java-symbol type="id" name="notification_media_progress" />
+   <java-symbol type="id" name="notification_media_progress_bar" />
+   <java-symbol type="id" name="notification_media_progress_time" />
+   <java-symbol type="id" name="notification_media_elapsed_time" />
+   <java-symbol type="id" name="notification_media_total_time" />
+
+    <!-- Pocket Lock -->
+    <java-symbol type="layout" name="pocket_lock_view_layout" />
+    <java-symbol type="id" name="pocket_hint_container" />
+    <java-symbol type="id" name="pocket_hint_image" />
+    <java-symbol type="id" name="pocket_hint_message" />
+
+    <!-- Pocket bridge -->
+    <java-symbol type="string" name="config_pocketBridgeSysfsInpocket" />
 </resources>

@@ -157,12 +157,9 @@
     <string name="quick_settings_expanded_desktop_off">Звычайны</string>
     <string name="quick_settings_expanded_navigation_off">Схаваць панэль навігацыі</string>
     <string name="quick_settings_expanded_statusbar_off">Схаваць радок стану</string>
-    <!-- Advance location quick setting tile -->
-    <string name="quick_settings_location_secondary_battery_saving">Энергазберажэнне</string>
+    <!-- Location Tile -->
     <string name="accessibility_quick_settings_location_battery_saving">Вызначэнне месцазнаходжання: па каардынатах сеткі.</string>
-    <string name="quick_settings_location_secondary_gps_only">Толькі датчыкі GPS</string>
     <string name="accessibility_quick_settings_location_gps_only">Вызначэнне месцазнаходжання: рэжым толькі датчыкі GPS.</string>
-    <string name="quick_settings_location_secondary_high_accuracy">Высокая дакладнасць</string>
     <string name="accessibility_quick_settings_location_high_accuracy">Вызначэнне месцазнаходжання: па ўсіх крыніцах.</string>
     <!-- Indication on the keyguard that is shown when the device is charging with a dash charger. Should match keyguard_plugged_in_dash_charging [CHAR LIMIT=40]-->
     <string name="keyguard_indication_dash_charging_time">Хуткая зарадка (засталося <xliff:g id="charging_time_left" example="4 hours and 2 minutes">%s</xliff:g>)</string>
@@ -211,13 +208,31 @@
     <!-- Kill button in notification guts -->
     <string name="force_stop_dlg_title">Спынiць прымусова?</string>
     <string name="force_stop_dlg_text">Прымусовае закрыццё праграмы можа адбіцца на яе функцыянальнасці.</string>
-    <string name="dlg_ok">@android:string/ok</string>
-    <string name="dlg_cancel">@android:string/cancel</string>
     <string name="kill">Зачыніць праграму</string>
     <!-- OneHand mode QS tile -->
+    <string name="qs_onehand_label">Рэжым «Кіраванне адной рукой»</string>
     <!--Google sound search tile -->
+    <string name="quick_settings_sound_search">Пошук музыкі</string>
     <!-- Always on Display Tile -->
+    <string name="quick_settings_always_on_display_label">Заўсёды ўключаны дысплей</string>
     <!-- Music tile -->
+    <string name="quick_settings_music_label">Музыка</string>
+    <string name="quick_settings_music_play">Прайграць</string>
+    <string name="quick_settings_music_pause">Паўза</string>
     <!-- Sync QS tile -->
+    <string name="quick_settings_sync_label">Сінхранізацыя</string>
+    <string name="accessibility_quick_settings_sync_off">Сінхранізацыя адключана.</string>
+    <string name="accessibility_quick_settings_sync_on">Сінхранізацыя ўключана.</string>
+    <string name="accessibility_quick_settings_sync_changed_off">Сінхранізацыя адключана.</string>
+    <string name="accessibility_quick_settings_sync_changed_on">Сінхранізацыя ўключана.</string>
     <!-- Ambient display QS tile -->
+    <string name="quick_settings_ambient_display_label">Індыкацыя падзей</string>
+    <string name="accessibility_quick_settings_ambient_display_off">Індыкацыя падзей адкл.</string>
+    <string name="accessibility_quick_settings_ambient_display_on">Індыкацыя падзей укл.</string>
+    <string name="accessibility_quick_settings_ambient_display_changed_off">Індыкацыя падзей адключана.</string>
+    <string name="accessibility_quick_settings_ambient_display_changed_on">Індыкацыя падзей уключана.</string>
+    <!-- Volume panel QS tile -->
+    <string name="quick_settings_volume_panel_label">Панэль гучнасці</string>
+    <!-- Reader mode QS tile -->
+    <!-- Font Tile -->
 </resources>

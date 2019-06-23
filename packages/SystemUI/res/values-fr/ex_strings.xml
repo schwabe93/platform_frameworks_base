@@ -157,12 +157,9 @@
     <string name="quick_settings_expanded_desktop_off">Normal</string>
     <string name="quick_settings_expanded_navigation_off">Cacher la barre de navigation</string>
     <string name="quick_settings_expanded_statusbar_off">Cacher la barre de statut</string>
-    <!-- Advance location quick setting tile -->
-    <string name="quick_settings_location_secondary_battery_saving">Économie de batterie</string>
+    <!-- Location Tile -->
     <string name="accessibility_quick_settings_location_battery_saving">Rapports de situation : mode économie de batterie.</string>
-    <string name="quick_settings_location_secondary_gps_only">Capteurs seulement</string>
     <string name="accessibility_quick_settings_location_gps_only">Rapports de situation : mode de capteurs seulement.</string>
-    <string name="quick_settings_location_secondary_high_accuracy">Haute précision</string>
     <string name="accessibility_quick_settings_location_high_accuracy">Rapports de situation : mode haute précision.</string>
     <!-- Indication on the keyguard that is shown when the device is charging with a dash charger. Should match keyguard_plugged_in_dash_charging [CHAR LIMIT=40]-->
     <string name="keyguard_indication_dash_charging_time">Recharge rapide (<xliff:g id="charging_time_left" example="4 heures et 2 minutes">%s</xliff:g> jusqu\'à la charge complète)</string>
@@ -211,12 +208,31 @@
     <!-- Kill button in notification guts -->
     <string name="force_stop_dlg_title">Forcer l\'arrêt ?</string>
     <string name="force_stop_dlg_text">Si vous forcez l\'arrêt d\'une application, cela peut provoquer son dysfonctionnement.</string>
-    <string name="dlg_ok">@android:string/ok</string>
     <string name="kill">Arrêter l’application</string>
     <!-- OneHand mode QS tile -->
+    <string name="qs_onehand_label">Mode une main</string>
     <!--Google sound search tile -->
+    <string name="quick_settings_sound_search">Recherche audio</string>
     <!-- Always on Display Tile -->
+    <string name="quick_settings_always_on_display_label">Always On Display</string>
     <!-- Music tile -->
+    <string name="quick_settings_music_label">Musique</string>
+    <string name="quick_settings_music_play">Lire</string>
+    <string name="quick_settings_music_pause">Pause</string>
     <!-- Sync QS tile -->
+    <string name="quick_settings_sync_label">Synchroniser</string>
+    <string name="accessibility_quick_settings_sync_off">Synchronisation désactivée.</string>
+    <string name="accessibility_quick_settings_sync_on">Synchro. activée.</string>
+    <string name="accessibility_quick_settings_sync_changed_off">Synchro. désactivée.</string>
+    <string name="accessibility_quick_settings_sync_changed_on">Synchronisation activée.</string>
     <!-- Ambient display QS tile -->
+    <string name="quick_settings_ambient_display_label">Adaptation de la luminosité</string>
+    <string name="accessibility_quick_settings_ambient_display_off">Adaptation de la luminosité désactivée.</string>
+    <string name="accessibility_quick_settings_ambient_display_on">Adaptation de la luminosité activée.</string>
+    <string name="accessibility_quick_settings_ambient_display_changed_off">Adaptation de la luminosité désactivée.</string>
+    <string name="accessibility_quick_settings_ambient_display_changed_on">Adaptation de la luminosité activée.</string>
+    <!-- Volume panel QS tile -->
+    <string name="quick_settings_volume_panel_label">Panneau de volume</string>
+    <!-- Reader mode QS tile -->
+    <!-- Font Tile -->
 </resources>
